@@ -41,6 +41,15 @@ gradle run
 popd
 stopNetwork
 
+# Run Java application using gateway
+createNetwork
+print "Initializing Java application"
+pushd ../asset-transfer-basic/application-gateway-java
+print "Executing Gradle Run"
+gradle run
+popd
+stopNetwork
+
 # Run Javascript application
 createNetwork
 print "Initializing Javascript application"
@@ -63,6 +72,18 @@ node dist/app.js
 popd
 stopNetwork
 
+# Run gateway typescript application
+createNetwork
+print "Initializing Typescript gateway application"
+pushd ../asset-transfer-basic/application-gateway-typescript
+npm install
+print "Building app.ts"
+npm run build
+print "Running the output app"
+node dist/app.js
+popd
+stopNetwork
+
 # Run typescript HSM application
 createNetwork
 print "Initializing Typescript HSM application"
@@ -76,5 +97,14 @@ print "Building app.ts"
 npm run build
 print "Running the output app"
 node dist/app.js
+popd
+stopNetwork
+
+# Run Go gateway application
+createNetwork
+print "Initializing Go gateway application"
+pushd ../asset-transfer-basic/application-gateway-go
+print "Executing AssetTransfer.go"
+go run .
 popd
 stopNetwork

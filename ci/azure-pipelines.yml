@@ -5,15 +5,29 @@
 trigger:
   - main
   - release-1.4
+  - release-2.2
 
 variables:
-  FABRIC_VERSION: 2.4
-  GO_BIN: $(Build.Repository.LocalPath)/bin
-  GO_VER: 1.14.6
-  NODE_VER: 12.x
-  PATH: $(Build.Repository.LocalPath)/bin:/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+  - name: FABRIC_VERSION
+    value: 2.4
+  - name: GO_BIN
+    value: $(Build.Repository.LocalPath)/bin
+  - name: GO_VER
+    value: 1.16.7
+  - name: NODE_VER
+    value: 16.x
+  - name: PATH
+    value: $(Build.Repository.LocalPath)/bin:/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+  - group: credentials
 
 jobs:
+  - job: REST_Sample
+    displayName: REST Server Sample
+    pool:
+      vmImage: ubuntu-20.04
+    steps:
+      - template: templates/asset-transfer-basic/azure-pipelines-rest.yml
+
   - job: CommercialPaper_Go
     displayName: Commercial Paper (Go)
     pool:
@@ -84,8 +98,6 @@ jobs:
         inputs:
           versionSpec: $(NODE_VER)
         displayName: Install Node.js
-      - script: npm install -g typescript eslint tslint
-        displayName: Install Javascript Linting Deps
       - script: ./ci/scripts/lint.sh
         displayName: Lint Code
 
